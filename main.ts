@@ -2,9 +2,29 @@ namespace SpriteKind {
     export const Grocery = SpriteKind.create()
     export const CartItem = SpriteKind.create()
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Grocery, function (sprite, otherSprite) {
+    if (controller.A.isPressed()) {
+        addToCart(otherSprite)
+    }
+})
+function createTextSprite () {
+    subTotalSprite = textsprite.create("$0")
+    subTotalSprite.left = 0
+    subTotalSprite.top = 0
+    subTotalSprite.setFlag(SpriteFlag.RelativeToCamera, true)
+}
+function addToCart (grocery: Sprite) {
+    item = sprites.create(grocery.image, SpriteKind.CartItem)
+    item.follow(player)
+    item.x = player.x
+    item.y = player.y
+}
 function createProducts () {
-    for (let i = 0; i <= 8; i++) {
+    for (let i = 0; i <= groceryImages.length - 1; i++) {
         productImg = groceryImages[i]
+        productCost = groceryCosts[i]
+        productWeight = groceryWeights[i]
+        productName = groceryNames[i]
         createProduct(productImg, 0, 0, "")
     }
 }
@@ -13,7 +33,16 @@ function createProduct (productImg: Image, cost: number, weght: number, name: st
     tiles.placeOnRandomTile(product, assets.tile`tile1`)
 }
 let product: Sprite = null
+let productName = ""
+let productWeight = 0
+let productCost = 0
 let productImg: Image = null
+let item: Sprite = null
+let subTotalSprite: TextSprite = null
+let player: Sprite = null
+let groceryCosts: number[] = []
+let groceryWeights: number[] = []
+let groceryNames: string[] = []
 let groceryImages: Image[] = []
 groceryImages = [
 img`
@@ -179,18 +208,18 @@ img`
     . . . . 6 6 6 6 6 6 6 . . . . . 
     `
 ]
-let groceryNames = [
+groceryNames = [
 "Milk",
 "Grape Soda",
 "Oatmeal",
 "Turkey",
-"Fancy glass",
+"dimond",
 "Chicken soup",
 "Sardines",
 "Flour",
 "Watermelon"
 ]
-let groceryWeights = [
+groceryWeights = [
 8,
 2,
 1,
@@ -201,7 +230,7 @@ let groceryWeights = [
 5,
 10
 ]
-let groceryCosts = [
+groceryCosts = [
 2,
 3,
 4,
@@ -214,7 +243,7 @@ let groceryCosts = [
 ]
 scene.setBackgroundColor(9)
 tiles.setTilemap(tilemap`level`)
-let player = sprites.create(img`
+player = sprites.create(img`
     fffffff......................
     f.fffcd......................
     ..ffddc......................
@@ -236,3 +265,4 @@ controller.moveSprite(player)
 tiles.placeOnTile(player, tiles.getTileLocation(1, 3))
 scene.cameraFollowSprite(player)
 createProducts()
+createTextSprite()
