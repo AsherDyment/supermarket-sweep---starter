@@ -13,6 +13,24 @@ function createTextSprite () {
     subTotalSprite.top = 0
     subTotalSprite.setFlag(SpriteFlag.RelativeToCamera, true)
 }
+scene.onOverlapTile(SpriteKind.Player, assets.tile`tile10`, function (sprite, location) {
+    msg = "you win hooray!!!!"
+    msg = msg + "\\n A"
+    msg = msg + "\\n Aw"
+    msg = msg + "\\n Awe"
+    msg = msg + "\\n Awes"
+    msg = msg + "\\n Aweso"
+    msg = msg + "\\n Awesom"
+    msg = msg + "\\n Awesome"
+    msg = msg + "\\n Subtotal: $" + subtotal
+
+let cartItems = sprites.allOfKind(SpriteKind.CartItem)
+
+for(let cartItem of cartItems)
+
+    game.showLongText(msg, DialogLayout.Center)
+
+})
 function addToCart (grocery: Sprite) {
     item = sprites.create(grocery.image, SpriteKind.CartItem)
     item.follow(player)
@@ -57,6 +75,7 @@ let weight = 0
 let subtotal = 0
 let cost = 0
 let item: Sprite = null
+let msg = ""
 let subTotalSprite: TextSprite = null
 let player: Sprite = null
 let groceryCosts: number[] = []
@@ -65,6 +84,7 @@ let groceryNames: string[] = []
 let groceryImages: Image[] = []
 let speed = 0
 speed = 100
+info.startCountdown(30)
 groceryImages = [
 img`
     . . . 2 2 2 . . . . . . . . . . 
