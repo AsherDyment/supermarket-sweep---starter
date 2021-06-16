@@ -18,25 +18,46 @@ function addToCart (grocery: Sprite) {
     item.follow(player)
     item.x = player.x
     item.y = player.y
+    cost = sprites.readDataNumber(grocery, "cost")
+    subtotal = subtotal + cost
+    subTotalSprite.setText("$"+subtotal )
+
+    // update speed when we add to cart
+    let weight = sprites.readDataNumber(grocery, "weight")
+    speed = speed - weight
+    controller.moveSprite(player, speed, speed)
 }
+
+
+
+
+
 function createProducts () {
-    for (let i = 0; i <= groceryImages.length - 1; i++) {
+    while (i <= groceryImages.length - 1) {
         productImg = groceryImages[i]
         productCost = groceryCosts[i]
         productWeight = groceryWeights[i]
         productName = groceryNames[i]
-        createProduct(productImg, 0, 0, "")
+        createProduct(productImg, productCost, productWeight, productName)
+        i += 1
     }
 }
-function createProduct (productImg: Image, cost: number, weght: number, name: string) {
+function createProduct (productImg: Image, cost: number, weight: number, name: string) {
     product = sprites.create(productImg, SpriteKind.Grocery)
     tiles.placeOnRandomTile(product, assets.tile`tile1`)
+    sprites.setDataNumber(product, "cost", cost)
+    sprites.setDataNumber(product, "weight", weight)
+    sprites.setDataString(product, "name", name)
 }
+let speed = 100
 let product: Sprite = null
 let productName = ""
 let productWeight = 0
 let productCost = 0
 let productImg: Image = null
+let i = 0
+let subtotal = 0
+let cost = 0
 let item: Sprite = null
 let subTotalSprite: TextSprite = null
 let player: Sprite = null
@@ -261,7 +282,7 @@ player = sprites.create(img`
     .d..d......ddddddd...........
     .d..dd......c....c...........
     `, SpriteKind.Player)
-controller.moveSprite(player)
+controller.moveSprite(player, speed, speed)
 tiles.placeOnTile(player, tiles.getTileLocation(1, 3))
 scene.cameraFollowSprite(player)
 createProducts()
