@@ -20,18 +20,16 @@ function addToCart (grocery: Sprite) {
     item.y = player.y
     cost = sprites.readDataNumber(grocery, "cost")
     subtotal = subtotal + cost
-    subTotalSprite.setText("$"+subtotal )
-
+    subTotalSprite.setText("$" + subtotal)
     // update speed when we add to cart
-    let weight = sprites.readDataNumber(grocery, "weight")
+    weight = sprites.readDataNumber(grocery, "weight")
     speed = speed - weight
+    // if the speed is less than 5, make it 5 (so the controller won't flip)
+    if (speed < 5) {
+        speed = 5
+    }
     controller.moveSprite(player, speed, speed)
 }
-
-
-
-
-
 function createProducts () {
     while (i <= groceryImages.length - 1) {
         productImg = groceryImages[i]
@@ -49,13 +47,13 @@ function createProduct (productImg: Image, cost: number, weight: number, name: s
     sprites.setDataNumber(product, "weight", weight)
     sprites.setDataString(product, "name", name)
 }
-let speed = 100
 let product: Sprite = null
 let productName = ""
 let productWeight = 0
 let productCost = 0
 let productImg: Image = null
 let i = 0
+let weight = 0
 let subtotal = 0
 let cost = 0
 let item: Sprite = null
@@ -65,6 +63,8 @@ let groceryCosts: number[] = []
 let groceryWeights: number[] = []
 let groceryNames: string[] = []
 let groceryImages: Image[] = []
+let speed = 0
+speed = 100
 groceryImages = [
 img`
     . . . 2 2 2 . . . . . . . . . . 
