@@ -24,9 +24,10 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`tile10`, function (sprite, lo
     msg = msg + "\\n Awesome"
     msg = msg + "\\n Subtotal: $" + subtotal
 
-let cartItems = sprites.allOfKind(SpriteKind.CartItem)
+    let cartItems = sprites.allOfKind(SpriteKind.CartItem)
 
-for(let cartItem of cartItems)
+    for(let cartItem of cartItems){
+    }
 
     game.showLongText(msg, DialogLayout.Center)
 
@@ -47,6 +48,9 @@ function addToCart (grocery: Sprite) {
         speed = 5
     }
     controller.moveSprite(player, speed, speed)
+
+
+    sprites.setDataNumber(item, "cost", cost)
 }
 function createProducts () {
     while (i <= groceryImages.length - 1) {
