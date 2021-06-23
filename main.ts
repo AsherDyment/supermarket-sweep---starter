@@ -2,6 +2,9 @@ namespace SpriteKind {
     export const Grocery = SpriteKind.create()
     export const CartItem = SpriteKind.create()
 }
+sprites.onOverlap(SpriteKind.Grocery, SpriteKind.Grocery, function (sprite, otherSprite) {
+    tiles.placeOnRandomTile(otherSprite, assets.tile`tile1`)
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Grocery, function (sprite, otherSprite) {
     if (controller.A.isPressed()) {
         addToCart(otherSprite)
@@ -27,10 +30,11 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`tile10`, function (sprite, lo
     for (let cartItem of cartItems) {
         tc = sprites.readDataNumber(cartItem, "cost")
         tn = sprites.readDataString(cartItem, "name")
-        let longthing = "\\n " + tn + ": " + tc
-        msg = msg + longthing
+        longthing = "\\n " + tn + ": " + tc
+        msg = "" + msg + longthing
     }
     game.showLongText(msg, DialogLayout.Center)
+    info.setScore(subtotal)
     game.over(true)
 })
 function addToCart (grocery: Sprite) {
@@ -80,6 +84,7 @@ let name = ""
 let weight = 0
 let cost = 0
 let item: Sprite = null
+let longthing = ""
 let tn = ""
 let tc = 0
 let cartItems: Sprite[] = []

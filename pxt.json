@@ -1,5 +1,5 @@
 {
-    "name": "Supermarket Sweep - Starter",
+    "name": "best game ever",
     "description": "",
     "dependencies": {
         "device": "*",
@@ -24,5 +24,5 @@
     "supportedTargets": [
         "arcade"
     ],
-    "preferredEditor": "tsprj"
+    "preferredEditor": "blocksprj"
 }
