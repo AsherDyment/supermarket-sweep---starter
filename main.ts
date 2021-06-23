@@ -15,22 +15,23 @@ function createTextSprite () {
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`tile10`, function (sprite, location) {
     msg = "you win hooray!!!!"
-    msg = msg + "\\n A"
-    msg = msg + "\\n Aw"
-    msg = msg + "\\n Awe"
-    msg = msg + "\\n Awes"
-    msg = msg + "\\n Aweso"
-    msg = msg + "\\n Awesom"
-    msg = msg + "\\n Awesome"
-    msg = msg + "\\n Subtotal: $" + subtotal
-
-    let cartItems = sprites.allOfKind(SpriteKind.CartItem)
-
-    for(let cartItem of cartItems){
+    msg = "" + msg + "\\n A"
+    msg = "" + msg + "\\n Aw"
+    msg = "" + msg + "\\n Awe"
+    msg = "" + msg + "\\n Awes"
+    msg = "" + msg + "\\n Aweso"
+    msg = "" + msg + "\\n Awesom"
+    msg = "" + msg + "\\n Awesome"
+    msg = "" + msg + "\\n Subtotal: $" + subtotal
+    cartItems = sprites.allOfKind(SpriteKind.CartItem)
+    for (let cartItem of cartItems) {
+        tc = sprites.readDataNumber(cartItem, "cost")
+        tn = sprites.readDataString(cartItem, "name")
+        let longthing = "\\n " + tn + ": " + tc
+        msg = msg + longthing
     }
-
     game.showLongText(msg, DialogLayout.Center)
-
+    game.over(true)
 })
 function addToCart (grocery: Sprite) {
     item = sprites.create(grocery.image, SpriteKind.CartItem)
@@ -48,9 +49,9 @@ function addToCart (grocery: Sprite) {
         speed = 5
     }
     controller.moveSprite(player, speed, speed)
-
-
     sprites.setDataNumber(item, "cost", cost)
+    name = sprites.readDataString(grocery, "name")
+    sprites.setDataString(item, "name", name)
 }
 function createProducts () {
     while (i <= groceryImages.length - 1) {
@@ -75,10 +76,14 @@ let productWeight = 0
 let productCost = 0
 let productImg: Image = null
 let i = 0
+let name = ""
 let weight = 0
-let subtotal = 0
 let cost = 0
 let item: Sprite = null
+let tn = ""
+let tc = 0
+let cartItems: Sprite[] = []
+let subtotal = 0
 let msg = ""
 let subTotalSprite: TextSprite = null
 let player: Sprite = null
@@ -258,7 +263,7 @@ groceryNames = [
 "Grape Soda",
 "Oatmeal",
 "Turkey",
-"dimond",
+"Diamond",
 "Chicken soup",
 "Sardines",
 "Flour",
